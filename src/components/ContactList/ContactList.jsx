@@ -1,24 +1,11 @@
 import { List } from './ContactList.styled';
 import { ContactListItem } from '../ContactListItem/ContactListItem';
 import { useSelector } from 'react-redux';
-import { getContacts, getFilter } from '../../redux/selectors';
-import { useMemo } from 'react';
+import { selectVisibleContacts } from '../../redux/selectors';
 
 export const ContactList = () => {
     
-    const contacts = useSelector(getContacts);
-    const filterContacts = useSelector(getFilter);
-
-    const getVisibleContacts = () => {
-        if (!filterContacts) {
-            return contacts;
-        }
-
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterContacts.toLowerCase()));
-    };
-    
-    const visibleContacts = useMemo(getVisibleContacts, [contacts, filterContacts]);
+    const visibleContacts = useSelector(selectVisibleContacts);
 
     return (
         <List>
@@ -28,21 +15,3 @@ export const ContactList = () => {
         </List>
     )
 }
-
-
-
-
-
-// const ContactList = ({ options, onDelete } ) => {
-//     return (
-//         <List>
-//             {options.map(option => (
-//             <ListItem key={option.id}>
-//                     <span>{option.name}: </span><PhoneNumber>{option.number}</PhoneNumber>
-//                     <ContsctBtn type="button" onClick={() => onDelete(option.id)}>Delete</ContsctBtn>
-//             </ListItem>
-//             ))}
-//         </List>
-//     )
-// }
-// export default ContactList; 
